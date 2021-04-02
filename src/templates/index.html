@@ -69,8 +69,8 @@
           contentType: "application/json",
           data: JSON.stringify({question:query}),
           success:function(data){
-             console.log(data);
-            if(data==null || data==''){
+             
+            if(data.length == 0){
               $("#tbl_res").html('No Records Found');
             }
             var q='';
