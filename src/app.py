@@ -26,7 +26,7 @@ def analyzer():
     question = data.get('question')
     query = query_processor.generate_query(question)
     # docs = document_retriever.search(query)
-    docs = textProcess.text_prepare(query)
+    docs = textProcess.search_text(question)
     return jsonify(docs)
     # query = query_processor.generate_query(question)
     # docs = document_retriever.search(question)
