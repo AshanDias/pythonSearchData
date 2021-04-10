@@ -6,7 +6,6 @@ import csv
 
 import requests
 import wikipedia
-from gensim.summarization.bm25 import BM25
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering, QuestionAnsweringPipeline
 import pandas as pd
 import numpy as np
