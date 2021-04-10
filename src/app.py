@@ -3,7 +3,7 @@ import os
 import spacy
 from flask import Flask, render_template, jsonify, request
 
-from src.components import QueryProcessor, PassageRetrieval,DataRetrieval, AnswerExtractor
+from src.components import QueryProcessor, PassageRetrieval,DataRetrieval,TextProcess, AnswerExtractor
 
 app = Flask(__name__)
 SPACY_MODEL = os.environ.get('SPACY_MODEL', 'en_core_web_sm')
@@ -13,7 +13,7 @@ query_processor = QueryProcessor(nlp)
 document_retriever = DataRetrieval()
 passage_retriever = PassageRetrieval(nlp)
 answer_extractor = AnswerExtractor(QA_MODEL, QA_MODEL)
-
+textProcess = TextProcess()
 
 @app.route('/')
 def index():
@@ -25,7 +25,8 @@ def analyzer():
     data = request.get_json()
     question = data.get('question')
     query = query_processor.generate_query(question)
-    docs = document_retriever.search(query)
+    # docs = document_retriever.search(query)
+    docs = textProcess.text_prepare(query)
     return jsonify(docs)
     # query = query_processor.generate_query(question)
     # docs = document_retriever.search(question)
