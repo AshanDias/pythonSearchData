@@ -42,7 +42,33 @@
           </form>
         </div>
       </div>
-
+      <br>
+      <div id="spin" style="display: none;">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-light" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-12">
             <table id="tbl_res" border="1">
@@ -60,6 +86,7 @@
 <script>
   
   $('#btn_search').click(function(){
+    $('#spin').removeAttr('style');
       var query=$('#searchQuery').val();
       if(query!='' ){
         
@@ -69,31 +96,26 @@
           contentType: "application/json",
           data: JSON.stringify({question:query}),
           success:function(data){
+            $('#spin').css('display','none');
              console.log(data)
             if(data.count == 0){
               $("#tbl_res").html('No Records Found');
             }
             var q='';
             $.each( data, function( key, value ) {
-              // q+='<tr>'+ 
-              //   '<td>'+value[0]+'</td>'+
-              //   ' <td>'+value[1]+'</td>'+
-              //   ' <td>'+value[3]+'</td>'+
-              //   ' <td>'+value[4]+'</td>'+
-              //   ' <td>'+value[5]+'</td>'+
-              //   ' <td>'+value[6]+'</td>'+
-              //   ' <td>'+value[7]+'</td>'+
-              //   ' </tr>';
               q+='<tr>'+ 
                 '<td>'+value+'</td>'+
                 ' </tr>';
             });
             $("#tbl_res").html(q);
+          },
+          error:function(){
+            $('#spin').css('display','none');
           }
         });
       }else{
         alert("Enter the value to find data");
-       
+        $('#spin').css('display','none');
       }
   });
 

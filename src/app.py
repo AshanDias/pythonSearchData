@@ -3,16 +3,9 @@ import os
 import spacy
 from flask import Flask, render_template, jsonify, request
 
-from src.components import QueryProcessor, PassageRetrieval,DataRetrieval,TextProcess, AnswerExtractor
+from src.components import TextProcess
 
 app = Flask(__name__)
-SPACY_MODEL = os.environ.get('SPACY_MODEL', 'en_core_web_sm')
-QA_MODEL = os.environ.get('QA_MODEL', 'distilbert-base-cased-distilled-squad')
-nlp = spacy.load(SPACY_MODEL, disable=['ner', 'parser', 'textcat'])
-query_processor = QueryProcessor(nlp)
-document_retriever = DataRetrieval()
-passage_retriever = PassageRetrieval(nlp)
-answer_extractor = AnswerExtractor(QA_MODEL, QA_MODEL)
 textProcess = TextProcess()
 
 @app.route('/')
@@ -24,16 +17,9 @@ def index():
 def analyzer():
     data = request.get_json()
     question = data.get('question')
-    query = query_processor.generate_query(question)
-    # docs = document_retriever.search(query)
     docs = textProcess.search_text(question)
     return jsonify(docs)
-    # query = query_processor.generate_query(question)
-    # docs = document_retriever.search(question)
-    # passage_retriever.fit(docs)
-    # passages = passage_retriever.most_similar(question)
-    # answers = answer_extractor.extract(question, passages)
-    # return jsonify(answers)
+   
 
 
 if __name__ == '__main__':
